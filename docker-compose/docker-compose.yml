@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+
+  # connect db on your local: be sure to have psql client
+  # psql --host=localhost --port=5445 --dbname=postgres --username=postgres
+  db:
+    image: postgres:9.6
+    ports:
+      - "5445:5432" # change so it will not have conflict with existing psql
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_PASSWORD=todarchpass
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  cs: # serves on 8080
+    image: todarch/cs
+    ports:
+      - "7001:8080" # maps 8080 of container to 7001 of host
+    expose:
+      - "8080" # let other containers access to this service on 8080
+    restart: always
+
+  um:
+    image: todarch/um
+    ports:
+      - "7002:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - cs
+      - db
+    environment:
+      - spring.cloud.config.uri=http://cs:8080
+      - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
+      - JDBC_DATABASE_USERNAME=postgres
+      - JDBC_DATABASE_PASSWORD=todarchpass
+    restart: always
+
+  td:
+    image: todarch/td
+    ports:
+      - "7003:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - cs
+    environment:
+      - spring.cloud.config.uri=http://cs:8080
+      - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
+      - JDBC_DATABASE_USERNAME=postgres
+      - JDBC_DATABASE_PASSWORD=todarchpass
+    restart: always
+
+  gw:
+    image: todarch/gw
+    ports:
+      - "7004:8080"
+    depends_on:
+      - um
+      - td
+    environment:
+      - zuul.routes.um.url=http://um:8080
+      - zuul.routes.td.url=http://td:8080
+    restart: always
+
+  ui:
+    image: todarch/ui
+    ports:
+      - "7005:5000"
+    depends_on:
+      - gw
+    environment:
+      - REACT_APP_API_ENDPOINT=http://localhost:7004
+    restart: always
+
+volumes:
+  db-data:
