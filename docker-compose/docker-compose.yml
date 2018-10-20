@@ -41,12 +41,14 @@ services:
 
   td:
     image: todarch/td
+    # image: todarch/td:0.0.1-SNAPSHOT-000
     ports:
       - "7003:8080"
     expose:
       - "8080"
     depends_on:
       - cs
+      - db
     environment:
       - spring.cloud.config.uri=http://cs:8080
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
