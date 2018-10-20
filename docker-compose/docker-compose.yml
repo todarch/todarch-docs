@@ -60,6 +60,8 @@ services:
     image: todarch/gw
     ports:
       - "7004:8080"
+    expose:
+      - "8080"
     depends_on:
       - um
       - td
@@ -72,6 +74,8 @@ services:
     image: todarch/ui
     ports:
       - "7005:5000"
+    expose:
+      - "5000"
     depends_on:
       - gw
     environment:
