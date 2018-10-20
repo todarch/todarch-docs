@@ -1,6 +1,6 @@
 # PostgreSQL Management
 
-- Anything something can go wrong, and we might lose all the data
+- Anytime something can go wrong, and we might lose all the data
 
 - Better to have tools to create backups, and restore to a snapshot whenever necessary
 
