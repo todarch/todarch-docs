@@ -20,6 +20,8 @@ IMAGE_NAME_WITH_TAG=$1
 IMAGE_NAME=$(echo $IMAGE_NAME_WITH_TAG | sed 's/:.*//')
 IMAGE_NAME_WITH_LATEST=$IMAGE_NAME:latest
 SERVICE_NAME=$(echo $IMAGE_NAME | cut -d "/" -f 2)
+BASE_COMPOSE_FILE=/home/selimssevgi/todarch-docs/docker-compose/docker-compose.yml
+PROD_COMPOSE_FILE=/home/selimssevgi/todarch-docs/docker-compose/docker-compose.prod.yml
 
 echo "Using compose file: '$DOCKER_COMPOSE_FILE'"
 echo "Extracted image name: '$IMAGE_NAME'"
@@ -37,5 +39,4 @@ docker tag $IMAGE_NAME_WITH_TAG $IMAGE_NAME_WITH_LATEST
 docker image ls | grep "$IMAGE_NAME"
 
 echo "Restarting $SERVICE_NAME..."
-alias dcp
-dcp up -d --no-deps $SERVICE_NAME
+docker-compose -f $BASE_COMPOSE_FILE -f $PROD_COMPOSE_FILE up -d --no-deps $SERVICE_NAME
