@@ -75,7 +75,7 @@ services:
       - proxy
     labels:
       - traefik.frontend.rule=Host:mq.todarch.com
-      - traefik.port=8080
+      - traefik.port=15672
 
 networks:
   proxy: # docker network create proxy for the first time
