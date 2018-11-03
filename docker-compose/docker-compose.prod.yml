@@ -65,6 +65,18 @@ services:
       - traefik.frontend.rule=Host:rp.todarch.com
       - traefik.port=8080
 
+  mq:
+    environment:
+      - RABBITMQ_HIPE_COMPILE=1
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - internal
+      - proxy
+    labels:
+      - traefik.frontend.rule=Host:mq.todarch.com
+      - traefik.port=8080
+
 networks:
   proxy: # docker network create proxy for the first time
     external: true

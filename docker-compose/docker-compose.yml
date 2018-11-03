@@ -41,7 +41,6 @@ services:
 
   td:
     image: todarch/td
-    # image: todarch/td:0.0.1-SNAPSHOT-000
     ports:
       - "7003:8080"
     expose:
@@ -80,6 +79,18 @@ services:
       - gw
     environment:
       - REACT_APP_API_ENDPOINT=http://localhost:7004
+    restart: always
+
+  mq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    expose:
+      - "5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     restart: always
 
 volumes:
