@@ -106,6 +106,7 @@ services:
       - RABBITMQ_PORT=5672
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
+      - TODARCH_MAIL_PASSWORD=${TODARCH_MAIL_PASSWORD}
     restart: always
 
 volumes:
