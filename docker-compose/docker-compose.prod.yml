@@ -79,6 +79,17 @@ services:
       - traefik.docker.network=proxy
       - traefik.port=15672
 
+  cm:
+    environment:
+      - spring.profiles.active=prod
+      - RABBITMQ_USERNAME=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+    restart: always
+
 networks:
   proxy: # docker network create proxy for the first time
     external: true

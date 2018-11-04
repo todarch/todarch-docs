@@ -94,5 +94,19 @@ services:
       - RABBITMQ_DEFAULT_PASS=guest
     restart: always
 
+  cm:
+    image: todarch/cm
+    depends_on:
+      - mq
+      - cs
+    environment:
+      - spring.cloud.config.uri=http://cs:8080
+      # do not add 'http' ././.rabbitmq/client/Address.java#parseHost#L85
+      - RABBITMQ_HOST=mq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+    restart: always
+
 volumes:
   db-data:
