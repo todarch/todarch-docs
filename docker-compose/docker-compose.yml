@@ -32,11 +32,16 @@ services:
     depends_on:
       - cs
       - db
+      - mq
     environment:
       - spring.cloud.config.uri=http://cs:8080
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
       - JDBC_DATABASE_USERNAME=postgres
       - JDBC_DATABASE_PASSWORD=todarchpass
+      - RABBITMQ_HOST=mq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
     restart: always
 
   td:

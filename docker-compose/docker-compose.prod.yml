@@ -15,6 +15,10 @@ services:
       - traefik.enable=false
 
   um:
+    environment:
+      - spring.profiles.active=prod
+      - RABBITMQ_USERNAME=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_PASSWORD=${RABBITMQ_DEFAULT_PASS}
     networks:
       - internal
     labels:
