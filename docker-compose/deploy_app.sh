@@ -10,6 +10,9 @@
 
 set -e
 
+# quick fix: while triggering from ssh it does not get included
+source ~/.bashrc
+
 # Check for arguments
 if [[ $# -lt 1 ]] ; then
 	echo '[ERROR] You must supply a Docker Image to pull'
