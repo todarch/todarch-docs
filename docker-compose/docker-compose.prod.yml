@@ -25,6 +25,8 @@ services:
       - traefik.enable=false
 
   td:
+    environment:
+      - spring.profiles.active=prod
     networks:
       - internal
     labels:
