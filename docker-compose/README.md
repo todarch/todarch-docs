@@ -21,78 +21,6 @@ docker version
   application to be fully ready. However, they keep trying to start, at some
   point the dependent application will be ready.
 
-## Use Todarch App
-
-### Web UI
-
-```shell
-cd <some-on-your-machine>/todarch-docs/docker-compose
-docker-compose up -d ui
-```
-
-- Wait a few minutes and visit localhost:7005
-
-### Cli
-
-```shell
-cd <some-on-your-machine>/todarch-docs/docker-compose
-docker-compose up -d gw
-```
-
-- Wait a few minutes and run the following:
-
-```shell
-todarch check
-```
-
-## Development
-
-Todarch application is formed of a few pieces, just follow to see which services
-you should start before start to hack.
-
-#### Working on ui
-
-- ui service depends on gw, which depends on td and um, they finaly depend on db
-  and cs services.
-
-```shell
-docker-compose up -d gw
-```
-
-```shell
-# in .env.development file
-REACT_APP_API_ENDPOINT=http://localhost:7004
-```
-
-- Now you can work on your local copy of React application.
-
-#### Working on cli
-
-- cli application also needs gateway endpoint
-
-```shell
-docker-compose up -d gw
-```
-
-```shell
-# in ~/.todarch/config.yml
-todarchApiBase: http://localhost:7004
-```
-
-- Now you can change source code, build and run cli commands.
-
-#### Working on um or td
-
-- um and td services only need db and cs services.
-
-```shell
-# because there is not dependency between cs and db
-# we should start them separately
-docker-compose up -d cs db
-```
-
-- Now we can just open um or td application in favorite IDE.
-
 ## Debugging
 
 The life will be easier if we know some of the debugging tools:
@@ -126,12 +54,10 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
 - It will not be fun to type all those long commands every time
 
 ```shell
-# add to your ~/.bashrc or ~/.bash_profile
-export TODARCH_DOCS='/home/selimssevgi/todarch-docs' # replace the path for your system
+source $HOME/todarch-docs/scripts/todarch-env.sh
+```
 
-# add it to ~/.bash_aliases for production
-alias dcp='docker-compose -f $TODARCH_DOCS/docker-compose/docker-compose.yml -f $TODARCH_DOCS/docker-compose/docker-compose.prod.yml'
-
+```shell
 # for development
 alias dcd='docker-compose -f $TODARCH_DOCS/docker-compose/docker-compose.yml'
 

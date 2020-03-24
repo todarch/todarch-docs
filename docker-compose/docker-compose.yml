@@ -114,5 +114,13 @@ services:
       - TODARCH_MAIL_PASSWORD=${TODARCH_MAIL_PASSWORD}
     restart: always
 
+  keycloak:
+    image: jboss/keycloak
+    ports:
+      - "7006:8080"
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+
 volumes:
   db-data:
