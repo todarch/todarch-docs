@@ -40,13 +40,19 @@ psql --host=localhost --dbname=todarchtd --username=todarchuser
 
 ## Production
 
-- Configuration in production may be more complicated than local environment
+### reverse-proxy
 
 ```shell
 chmod 600 acme.json
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d ui rp
+dcp up -d rp
+```
 
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+- visit rp.todarch.com
+
+```shell
+dcp logs rp # if not attaching
+dcp stop rp
+dcp up rp # run in attached mode
 ```
 
 ## Helpers

@@ -85,6 +85,14 @@ services:
     environment:
       - REACT_APP_API_ENDPOINT=http://localhost:7004
     restart: always
+    
+  web:
+    image: todarch/web
+    ports:
+      - "7006:4200"
+    expose:
+      - "4200"
+    restart: always
 
   mq:
     image: rabbitmq:3-management
