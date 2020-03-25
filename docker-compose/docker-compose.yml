@@ -15,6 +15,16 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  keycloak:
+    image: jboss/keycloak:9.0.2
+    ports:
+      - "7007:8080"
+    expose:
+      - "8080"
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+
   cs: # serves on 8080
     image: todarch/cs
     ports:
@@ -109,14 +119,6 @@ services:
       - RABBITMQ_PASSWORD=guest
       - TODARCH_MAIL_PASSWORD=${TODARCH_MAIL_PASSWORD}
     restart: always
-
-  keycloak:
-    image: jboss/keycloak
-    ports:
-      - "7006:8080"
-    environment:
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
 
 volumes:
   db-data:

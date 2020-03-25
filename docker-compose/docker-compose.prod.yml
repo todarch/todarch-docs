@@ -8,6 +8,19 @@ services:
     labels:
       - traefik.enable=false
 
+  keycloak:
+    environment:
+      - KEYCLOAK_USER=${TD_KEYCLOAK_USER}
+      - KEYCLOAK_PASSWORD=${TD_KEYCLOAK_PASSWORD}
+    networks:
+      - internal
+      - proxy
+    labels:
+      - traefik.backend=id
+      - traefik.frontend.rule=Host:id.todarch.com
+      - traefik.docker.network=proxy
+      - traefik.port=8080
+
   cs:
     networks:
       - internal
