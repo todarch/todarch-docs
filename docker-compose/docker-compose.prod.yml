@@ -3,10 +3,17 @@ version: '3'
 services:
 
   db:
+    environment:
+      - POSTGRES_USER=${TD_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${TD_POSTGRES_PASSWORD}
     networks:
       - internal
+      - proxy
     labels:
-      - traefik.enable=false
+      - traefik.backend=db
+      - traefik.frontend.rule=Host:db.todarch.com
+      - traefik.docker.network=proxy
+      - traefik.port=5432
 
   keycloak:
     environment:
