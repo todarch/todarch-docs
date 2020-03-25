@@ -77,9 +77,9 @@ services:
   web:
     image: todarch/web
     ports:
-      - "7006:4200"
+      - "7006:80" # nginx runs on 80
     expose:
-      - "4200"
+      - "80"
     restart: always
 
   mq:
