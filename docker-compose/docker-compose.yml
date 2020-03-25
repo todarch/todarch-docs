@@ -73,18 +73,6 @@ services:
       - zuul.routes.um.url=http://um:8080
       - zuul.routes.td.url=http://td:8080
     restart: always
-
-  ui:
-    image: todarch/ui
-    ports:
-      - "7005:5000"
-    expose:
-      - "5000"
-    depends_on:
-      - gw
-    environment:
-      - REACT_APP_API_ENDPOINT=http://localhost:7004
-    restart: always
     
   web:
     image: todarch/web

@@ -41,10 +41,8 @@ services:
       - traefik.frontend.rule=Host:api.todarch.com
       - traefik.docker.network=proxy
       - traefik.port=8080
-
-  ui:
-    environment:
-      - REACT_APP_API_ENDPOINT=https://api.todarch.com
+      
+  web:
     networks:
       - internal
       - proxy
@@ -52,7 +50,7 @@ services:
       - traefik.backend=ui
       - traefik.frontend.rule=Host:app.todarch.com, todarch.com
       - traefik.docker.network=proxy
-      - traefik.port=5000
+      - traefik.port=4200
 
   rp:
     image: traefik:1.7.3-alpine
