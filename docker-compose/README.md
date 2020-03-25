@@ -55,6 +55,16 @@ dcp stop rp
 dcp up rp # run in attached mode
 ```
 
+### keycloak
+
+- be sure user/pass env variables are set (ansible config)
+
+```shell
+dcp up -d keykloak
+```
+
+- visit id.todarch.com
+
 ## Helpers
 
 - It will not be fun to type all those long commands every time

@@ -6,3 +6,5 @@ alias dcp='docker-compose -f $TODARCH_DOCS/docker-compose/docker-compose.yml -f 
 
 : "${TD_KEYCLOAK_USER:?You must set}"
 : "${TD_KEYCLOAK_PASSWORD:?You must set}"
+
+cd $TODARCH_DOCS

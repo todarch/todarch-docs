@@ -12,6 +12,12 @@ services:
     environment:
       - KEYCLOAK_USER=${TD_KEYCLOAK_USER}
       - KEYCLOAK_PASSWORD=${TD_KEYCLOAK_PASSWORD}
+      # https://serverfault.com/questions/1000567/keycloak-blank-page-behind-nginx-reverse-proxy
+      # when visiting admin console, in case of white screen
+      # look in browser's console tab, there is 'Mixed Content:' error
+      # make sure that your internal keycloak jboss server is aware of the proxy address
+      # /opt/jboss/keycloak/standalone/configuration/standalone.xml
+      - PROXY_ADDRESS_FORWARDING=true
     networks:
       - internal
       - proxy
