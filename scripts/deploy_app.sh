@@ -11,7 +11,11 @@
 set -e
 
 # quick fix: while triggering from ssh it does not get included
-source ~/.bashrc
+if [ -f ~/.bashrc ]; then
+	source ~/.bashrc
+else
+	echo '[WARNING] there is no ~/.bashrc file to source'
+fi
 
 # Check for arguments
 if [[ $# -lt 1 ]] ; then
@@ -19,12 +23,18 @@ if [[ $# -lt 1 ]] ; then
 	exit 1
 fi
 
+if [ -z ${TODARCH_DOCS+x} ]; then 
+	echo "[ERROR] 'TODARCH_DOCS' is not set"
+	exit 1
+fi
+
+
 IMAGE_NAME_WITH_TAG=$1
 IMAGE_NAME=$(echo $IMAGE_NAME_WITH_TAG | sed 's/:.*//')
 IMAGE_NAME_WITH_LATEST=$IMAGE_NAME:latest
 SERVICE_NAME=$(echo $IMAGE_NAME | cut -d "/" -f 2)
-BASE_COMPOSE_FILE=/home/selimssevgi/todarch-docs/docker-compose/docker-compose.yml
-PROD_COMPOSE_FILE=/home/selimssevgi/todarch-docs/docker-compose/docker-compose.prod.yml
+BASE_COMPOSE_FILE=$TODARCH_DOCS/docker-compose/docker-compose.yml
+PROD_COMPOSE_FILE=$TODARCH_DOCS/docker-compose/docker-compose.prod.yml
 
 echo "Using compose file: '$DOCKER_COMPOSE_FILE'"
 echo "Extracted image name: '$IMAGE_NAME'"
