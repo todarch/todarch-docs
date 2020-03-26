@@ -132,7 +132,7 @@ services:
   wisit-web:
     image: todarch/wisit-web
     ports:
-      - "70011:80" # nginx runs on 80
+      - "7011:80" # nginx runs on 80
     expose:
       - "80"
     restart: always
