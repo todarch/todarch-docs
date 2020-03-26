@@ -10,12 +10,7 @@
 
 set -e
 
-# quick fix: while triggering from ssh it does not get included
-if [ -f ~/.bashrc ]; then
-	source ~/.bashrc
-else
-	echo '[WARNING] there is no ~/.bashrc file to source'
-fi
+TODARCH_DOCS=$HOME/todarch-docs
 
 # Check for arguments
 if [[ $# -lt 1 ]] ; then

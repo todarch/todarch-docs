@@ -4,6 +4,9 @@
 git clone https://github.com/todarch/todarch-docs.git
 cat "source $HOME/todarch-docs/scripts/todarch-env.sh" >> $HOME/.bashrc
 source $HOME/.bashrc
+
+ln -s $TODARCH_DOCS/scripts/deploy_app.sh $HOME/deploy_app
+
 docker network create proxy
 chmod 600 $TODARCH_DOCS/docker-compose/acme.json
 # TODO: get rid off the following condition
