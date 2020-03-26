@@ -121,5 +121,13 @@ services:
       - TODARCH_MAIL_PASSWORD=${TODARCH_MAIL_PASSWORD}
     restart: always
 
+  wisit-be:
+    image: todarch/wisit-be
+    ports:
+      - "7010:8080"
+    expose:
+      - "8080"
+    restart: always
+
 volumes:
   db-data:

@@ -120,6 +120,16 @@ services:
       - traefik.enable=false
     restart: always
 
+  wisit-be:
+    networks:
+      - internal
+      - proxy
+    labels:
+      - traefik.backend=wisit-be
+      - traefik.frontend.rule=Host:wisit-be.todarch.com
+      - traefik.docker.network=proxy
+      - traefik.port=8080
+
 networks:
   proxy: # docker network create proxy for the first time
     external: true
