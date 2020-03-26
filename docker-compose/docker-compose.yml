@@ -128,6 +128,14 @@ services:
     expose:
       - "8080"
     restart: always
+    
+  wisit-web:
+    image: todarch/wisit-web
+    ports:
+      - "70011:80" # nginx runs on 80
+    expose:
+      - "80"
+    restart: always
 
 volumes:
   db-data:

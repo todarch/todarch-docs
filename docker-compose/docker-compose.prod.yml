@@ -130,6 +130,16 @@ services:
       - traefik.docker.network=proxy
       - traefik.port=8080
 
+  wisit-web:
+    networks:
+      - internal
+      - proxy
+    labels:
+      - traefik.backend=wisit-web
+      - traefik.frontend.rule=Host:wisit.todarch.com
+      - traefik.docker.network=proxy
+      - traefik.port=80
+
 networks:
   proxy: # docker network create proxy for the first time
     external: true
