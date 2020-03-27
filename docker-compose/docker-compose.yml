@@ -135,6 +135,8 @@ services:
       - "7011:80" # nginx runs on 80
     expose:
       - "80"
+    depends_on:
+      - db
     restart: always
 
 volumes:

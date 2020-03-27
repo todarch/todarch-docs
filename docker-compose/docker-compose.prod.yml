@@ -131,6 +131,11 @@ services:
       - traefik.port=8080
 
   wisit-web:
+    environment:
+      - spring.profiles.active=prod
+      - JDBC_DATABASE_URL=${TD_JDBC_URL}
+      - JDBC_DATABASE_USERNAME=${TD_FLYWAY_USER}
+      - JDBC_DATABASE_PASSWORD=${TD_FLYWAY_PASSWORD}
     networks:
       - internal
       - proxy
