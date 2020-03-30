@@ -21,6 +21,27 @@ docker version
   application to be fully ready. However, they keep trying to start, at some
   point the dependent application will be ready.
 
+## ports
+
+```shell
+wisit-be:
+  ports:
+    - "7010:7011"
+  expose:
+    - "7011"
+```
+
+- application inside container runs on port `7011`
+  - inside container `localhost:7011` works
+  - inside container `localhost:7010` does not work
+
+- the entry maps that port to host machine port on `7010`
+  - on host machine `localhost:7011` does not work
+  - on host machine `localhost:7010` works
+
+- expose is only for other service access
+  - another container can access `wisit-be:7011`
+
 ## Debugging
 
 The life will be easier if we know some of the debugging tools:

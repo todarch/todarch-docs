@@ -121,6 +121,8 @@ services:
     restart: always
 
   wisit-be:
+    expose:
+      - "8080"
     environment:
       - spring.profiles.active=prod
       - JDBC_DATABASE_URL=${TD_JDBC_URL}

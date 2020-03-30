@@ -124,11 +124,14 @@ services:
   wisit-be:
     image: todarch/wisit-be
     ports:
-      - "7010:8080"
+      - "7010:7010"
     expose:
-      - "8080"
+      - "7010"
     depends_on:
       - db
+    environment:
+      # override for from container to container access
+      - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
     restart: always
     
   wisit-web:
