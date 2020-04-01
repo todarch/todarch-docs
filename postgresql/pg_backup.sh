@@ -22,7 +22,7 @@ SCHEMA_LIST="wisit"
 
 for SCHEMA in ${SCHEMA_LIST//,/}
 do
-  pg_dump --host=localhost --port=5445 --user=$PG_USER --schema=$SCHEMA $PG_PG_DATABASE >> $backup_file
+  pg_dump --host=localhost --port=5445 --user=$PG_USER --schema=$SCHEMA $PG_DATABASE >> $backup_file
   echo "" >> $backup_file
   echo "" >> $backup_file
 done
