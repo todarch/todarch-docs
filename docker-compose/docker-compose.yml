@@ -58,17 +58,14 @@ services:
   td:
     image: todarch/td
     ports:
-      - "7003:8080"
+      - "7003:7003"
     expose:
-      - "8080"
+      - "7003"
     depends_on:
-      - cs
       - db
     environment:
-      - spring.cloud.config.uri=http://cs:8080
+      # override for from container to container access
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
-      - JDBC_DATABASE_USERNAME=postgres
-      - JDBC_DATABASE_PASSWORD=todarchpass
     restart: always
 
   gw:
@@ -84,7 +81,7 @@ services:
       - zuul.routes.um.url=http://um:8080
       - zuul.routes.td.url=http://td:8080
     restart: always
-    
+
   web:
     image: todarch/web
     ports:
@@ -133,7 +130,7 @@ services:
       # override for from container to container access
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
     restart: always
-    
+
   wisit-web:
     image: todarch/wisit-web
     ports:

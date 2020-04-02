@@ -51,12 +51,21 @@ services:
       - traefik.enable=false
 
   td:
+    expose:
+      - "8080"
     environment:
       - spring.profiles.active=prod
+      - JDBC_DATABASE_URL=${TD_JDBC_URL}
+      - JDBC_DATABASE_USERNAME=${TD_FLYWAY_USER}
+      - JDBC_DATABASE_PASSWORD=${TD_FLYWAY_PASSWORD}
     networks:
       - internal
+      - proxy
     labels:
-      - traefik.enable=false
+      - traefik.backend=td
+      - traefik.frontend.rule=Host:td.todarch.com
+      - traefik.docker.network=proxy
+      - traefik.port=8080
 
   gw:
     networks:
@@ -67,7 +76,7 @@ services:
       - traefik.frontend.rule=Host:api.todarch.com
       - traefik.docker.network=proxy
       - traefik.port=8080
-      
+
   web:
     networks:
       - internal
