@@ -22,38 +22,18 @@ services:
       - "7007:8080"
     expose:
       - "8080"
+    depends_on:
+      - db
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
-
-  cs: # serves on 8080
-    image: todarch/cs
-    ports:
-      - "7001:8080" # maps 8080 of container to 7001 of host
-    expose:
-      - "8080" # let other containers access to this service on 8080
-    restart: always
-
-  um:
-    image: todarch/um
-    ports:
-      - "7002:8080"
-    expose:
-      - "8080"
-    depends_on:
-      - cs
-      - db
-      - mq
-    environment:
-      - spring.cloud.config.uri=http://cs:8080
-      - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
-      - JDBC_DATABASE_USERNAME=postgres
-      - JDBC_DATABASE_PASSWORD=todarchpass
-      - RABBITMQ_HOST=mq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USERNAME=guest
-      - RABBITMQ_PASSWORD=guest
-    restart: always
+      - DB_ADDR=db # required by entry-point.sh
+      - DB_VENDOR=postgres
+      - DB_PORT=5432 # from container to container
+      - DB_DATABASE=admin
+      - DB_SCHEMA=keycloak
+      - DB_USER=admin
+      - DB_PASSWORD=admin
 
   td:
     image: todarch/td
@@ -66,20 +46,7 @@ services:
     environment:
       # override for from container to container access
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
-    restart: always
-
-  gw:
-    image: todarch/gw
-    ports:
-      - "7004:8080"
-    expose:
-      - "8080"
-    depends_on:
-      - um
-      - td
-    environment:
-      - zuul.routes.um.url=http://um:8080
-      - zuul.routes.td.url=http://td:8080
+      - AUTH_SERVER_URL=http://keycloak:8080/auth
     restart: always
 
   web:
@@ -88,34 +55,6 @@ services:
       - "7006:80" # nginx runs on 80
     expose:
       - "80"
-    restart: always
-
-  mq:
-    image: rabbitmq:3-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    expose:
-      - "5672"
-      - "15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-    restart: always
-
-  cm:
-    image: todarch/cm
-    depends_on:
-      - mq
-      - cs
-    environment:
-      - spring.cloud.config.uri=http://cs:8080
-      # do not add 'http' ././.rabbitmq/client/Address.java#parseHost#L85
-      - RABBITMQ_HOST=mq
-      - RABBITMQ_PORT=5672
-      - RABBITMQ_USERNAME=guest
-      - RABBITMQ_PASSWORD=guest
-      - TODARCH_MAIL_PASSWORD=${TODARCH_MAIL_PASSWORD}
     restart: always
 
   wisit-be:

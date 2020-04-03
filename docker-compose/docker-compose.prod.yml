@@ -17,14 +17,18 @@ services:
 
   keycloak:
     environment:
-      - KEYCLOAK_USER=${TD_KEYCLOAK_USER}
-      - KEYCLOAK_PASSWORD=${TD_KEYCLOAK_PASSWORD}
       # https://serverfault.com/questions/1000567/keycloak-blank-page-behind-nginx-reverse-proxy
       # when visiting admin console, in case of white screen
       # look in browser's console tab, there is 'Mixed Content:' error
       # make sure that your internal keycloak jboss server is aware of the proxy address
       # /opt/jboss/keycloak/standalone/configuration/standalone.xml
       - PROXY_ADDRESS_FORWARDING=true
+      - KEYCLOAK_USER=${TD_KEYCLOAK_USER}
+      - KEYCLOAK_PASSWORD=${TD_KEYCLOAK_PASSWORD}
+      - DB_DATABASE=${TD_POSTGRES_USER}
+      - DB_SCHEMA=keycloak
+      - DB_USER=${TD_POSTGRES_USER}
+      - DB_PASSWORD=${TD_POSTGRES_PASSWORD}
     networks:
       - internal
       - proxy
@@ -34,22 +38,6 @@ services:
       - traefik.docker.network=proxy
       - traefik.port=8080
 
-  cs:
-    networks:
-      - internal
-    labels:
-      - traefik.enable=false
-
-  um:
-    environment:
-      - spring.profiles.active=prod
-      - RABBITMQ_USERNAME=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_PASSWORD=${RABBITMQ_DEFAULT_PASS}
-    networks:
-      - internal
-    labels:
-      - traefik.enable=false
-
   td:
     expose:
       - "8080"
@@ -58,22 +46,13 @@ services:
       - JDBC_DATABASE_URL=${TD_JDBC_URL}
       - JDBC_DATABASE_USERNAME=${TD_FLYWAY_USER}
       - JDBC_DATABASE_PASSWORD=${TD_FLYWAY_PASSWORD}
+      - AUTH_SERVER_URL=http://keycloak:8080/auth
     networks:
       - internal
       - proxy
     labels:
       - traefik.backend=td
       - traefik.frontend.rule=Host:td.todarch.com
-      - traefik.docker.network=proxy
-      - traefik.port=8080
-
-  gw:
-    networks:
-      - internal
-      - proxy
-    labels:
-      - traefik.backend=gateway
-      - traefik.frontend.rule=Host:api.todarch.com
       - traefik.docker.network=proxy
       - traefik.port=8080
 
@@ -103,31 +82,6 @@ services:
     labels:
       - traefik.frontend.rule=Host:rp.todarch.com
       - traefik.port=8080
-
-  mq:
-    environment:
-      - RABBITMQ_HIPE_COMPILE=1
-      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-    networks:
-      - internal
-      - proxy
-    labels:
-      - traefik.backend=rabbitmq
-      - traefik.frontend.rule=Host:mq.todarch.com
-      - traefik.docker.network=proxy
-      - traefik.port=15672
-
-  cm:
-    environment:
-      - spring.profiles.active=prod
-      - RABBITMQ_USERNAME=${RABBITMQ_DEFAULT_USER}
-      - RABBITMQ_PASSWORD=${RABBITMQ_DEFAULT_PASS}
-    networks:
-      - internal
-    labels:
-      - traefik.enable=false
-    restart: always
 
   wisit-be:
     expose:
