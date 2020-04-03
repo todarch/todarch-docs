@@ -18,7 +18,7 @@ PG_DATABASE="$TD_POSTGRES_USER"
 
 backup_file=$HOME/back-ups/todarch-backup-$(date +%Y%m%d%H%M%S).sql
 
-SCHEMA_LIST="wisit"
+SCHEMA_LIST="wisit, todarch, keycloak"
 
 for SCHEMA in ${SCHEMA_LIST//,/}
 do
