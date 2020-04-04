@@ -46,7 +46,10 @@ services:
       - JDBC_DATABASE_URL=${TD_JDBC_URL}
       - JDBC_DATABASE_USERNAME=${TD_FLYWAY_USER}
       - JDBC_DATABASE_PASSWORD=${TD_FLYWAY_PASSWORD}
-      - AUTH_SERVER_URL=http://keycloak:8080/auth
+      # if login ui requests token via id.todarch,
+      # backend validate token keycloak:80
+      # Invalid token issuer. Expected '<domain1>', but was '<domain2>"
+      - AUTH_SERVER_URL=https://id.todarch.com/auth
     networks:
       - internal
       - proxy
