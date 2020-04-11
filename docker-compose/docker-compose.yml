@@ -68,6 +68,7 @@ services:
     environment:
       # override for from container to container access
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
+      - FLICKR_API_KEY=${TD_FLICKR_API_KEY}
     restart: always
 
   wisit-web:
