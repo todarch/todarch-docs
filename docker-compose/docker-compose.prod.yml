@@ -15,6 +15,12 @@ services:
       - traefik.docker.network=proxy
       - traefik.port=5432
 
+  redis:
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
+
   keycloak:
     environment:
       # https://serverfault.com/questions/1000567/keycloak-blank-page-behind-nginx-reverse-proxy
