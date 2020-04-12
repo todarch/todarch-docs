@@ -19,7 +19,9 @@ services:
     networks:
       - internal
     labels:
-      - traefik.enable=false
+      - traefik.backend=redis
+      - traefik.docker.network=proxy
+      - traefik.port=6379
 
   keycloak:
     environment:
@@ -103,6 +105,7 @@ services:
       - INTERNAL_HEADER_NAME=${TD_INTERNAL_HEADER_NAME}
       - INTERNAL_HEADER_VALUE=${TD_INTERNAL_HEADER_VALUE}
       - FLICKR_API_KEY=${TD_FLICKR_API_KEY}
+      - TD_REDIS_HOST=redis
     networks:
       - internal
       - proxy
