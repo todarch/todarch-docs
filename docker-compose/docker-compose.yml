@@ -74,6 +74,7 @@ services:
       - "7010"
     depends_on:
       - db
+      - redis
     environment:
       # override for from container to container access
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
