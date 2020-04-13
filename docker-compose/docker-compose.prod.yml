@@ -105,6 +105,7 @@ services:
       - FLICKR_API_KEY=${TD_FLICKR_API_KEY}
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - REDIS_PASSWORD=${TD_REDIS_PASSWORD}
     networks:
       - internal
       - proxy
