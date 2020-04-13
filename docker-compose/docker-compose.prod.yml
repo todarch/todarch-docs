@@ -19,9 +19,7 @@ services:
     networks:
       - internal
     labels:
-      - traefik.backend=redis
-      - traefik.docker.network=proxy
-      - traefik.port=6379
+      - traefik.enable=false
 
   keycloak:
     environment:
