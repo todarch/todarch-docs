@@ -54,6 +54,7 @@ services:
       - "7003"
     depends_on:
       - db
+      - keycloak
     environment:
       # override for from container to container access
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
@@ -77,6 +78,7 @@ services:
     depends_on:
       - db
       - redis
+      - keycloak
     environment:
       # override for from container to container access
       - JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres
@@ -89,6 +91,8 @@ services:
       - "7011:80" # nginx runs on 80
     expose:
       - "80"
+    depends_on:
+      - wisit-be
     restart: always
 
 volumes:

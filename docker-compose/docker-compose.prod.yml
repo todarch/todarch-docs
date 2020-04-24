@@ -106,6 +106,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${TD_REDIS_PASSWORD}
+      - AUTH_SERVER_URL=https://id.todarch.com/auth
     networks:
       - internal
       - proxy
