@@ -29,18 +29,10 @@ CREATE SCHEMA keycloak;
 
 - visit keycloak running address -> administration console
 
-* create a realm
-    - hover over realm name on left top menu
-    
-* create a client (any app keycloak secures)
-    - on left menu: clients
-    - field: `Valid Redirect URIs`: `https://todarch.com/*`
-    - field: `Web origin`: add values for CORS
-    
 * create a role
     - on the left menu: roles
     - `user`
-    
+
 * create a user
     - on the left menu: users
     - just type username
@@ -48,12 +40,4 @@ CREATE SCHEMA keycloak;
         - set password, disable temporary password
     - roles mapping tab
         - add `user` role to user
-
-## spring boot
-
-- enable cors also through keycloak property
-
-```properties
-keycloak.cors=true
-```
 
